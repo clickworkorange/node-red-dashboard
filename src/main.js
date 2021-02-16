@@ -663,6 +663,18 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
             }
         });
 
+        events.on("show-dialog", function (msg) {
+            if (msg.hasOwnProperty("title") || msg.hasOwnProperty("text")) {
+                var dialogScope = $rootScope.$new();
+                dialogScope.dialog = msg;
+                var opts = {
+                    scope: dialogScope,
+                    templateUrl: "partials/dialog.html"
+                };
+                $mdDialog.show(opts);
+            }
+        });
+
         events.on('ui-control', function(msg) {
             if (msg.hasOwnProperty("socketid") && (msg.socketid !== events.id) ) { return; }
             if (msg.hasOwnProperty("control")) { // if it's a request to modify a control

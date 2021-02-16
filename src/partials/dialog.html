@@ -1,0 +1,6 @@
+<md-dialog layout="column" style="border:4px solid padding:0px; transition:border-color 0.1s;">
+    <div>
+        <h3 ng-if="dialog.title">{{::dialog.title}}</h3>
+        <div flex ng-bind-html="::dialog.text | trusted"></div>
+    </div>
+</md-dialog>
