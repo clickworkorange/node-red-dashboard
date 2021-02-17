@@ -728,20 +728,24 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
 
                 $mdDialog.show(dialog).then(
                     function(res) {
+                        // if res is object (multiple fields)
                         // add additional msg.properties here?
                         if(res === undefined) {
                             // no text was entered
                             // hmmm
-                            msg.msg.payload = true;
+                            //msg.msg.payload = true;
+                            msg.payload = true;
                         }
                         else {
-                            msg.msg.payload = res;
+                            //msg.msg.payload = res;
+                            msg.payload = res;
                         }
-                        events.emit({ id:msg.id, value:msg });
+                        events.emit({ id:msg.id, value:msg.payload });
                     },
                     function() {
-                        msg.msg.payload = false;
-                        events.emit({ id:msg.id, value:msg });
+                        //msg.msg.payload = false;
+                        msg.payload = false;
+                        events.emit({ id:msg.id, value:msg.payload });
                     });
             }
         });

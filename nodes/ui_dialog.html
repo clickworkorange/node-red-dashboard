@@ -5,6 +5,7 @@
         defaults: {
             preset: {value: "alert"},
             template: {value: "default"},
+            hash: {value: ""},
             sendall: {value: true},
             outputs: {value: 0},
             ok: {value: "OK", required: true},
@@ -13,9 +14,8 @@
             topic: {value: ""},
             name: {value: ""}
         },
-        inputs:1,
-        //outputs:0,
-        outputs:1,
+        inputs: 1,
+        outputs: 2,
         align: "right",
         icon: "dialog.png",
         paletteLabel: "dialog",
@@ -30,9 +30,13 @@
                     $("#node-dialog-displaycancel").hide();
                     // $("#node-dialog-displayok").show();
                 }
+                if ($("#node-input-preset option:selected").val() === "passcode") {
+                    $("#node-dialog-hash").show();
+                    // $("#node-dialog-displayok").show();
+                }
                 else {
                     $("#node-dialog-displaycancel").show();
-                    //$("#node-dialog-displayok").show();
+                    $("#node-dialog-hash").hide();
                 }
             });
             $("#node-input-template").on("change", function() {
@@ -57,9 +61,9 @@
             });
         },
         oneditsave: function() {
-            // if ($("#node-input-template option:selected").val() === "dialog") { this.outputs = 1; }
-            // else if ($("#node-input-template option:selected").val() === "prompt") { this.outputs = 1; }
-            // else { this.outputs = 0; }
+            // if ($("#node-input-preset option:selected").val() === "alert") { this.outputs = 1; }
+            // //else if ($("#node-input-preset option:selected").val() === "prompt") { this.outputs = 1; }
+            // else { this.outputs = 2; }
         }
     });
 </script>
@@ -89,6 +93,10 @@
     <div class="form-row" id="node-dialog-custom">
         <label for="node-input-custom"><i class="fa fa-square-o"></i> Custom</label>
         <input type="text" id="node-input-custom" placeholder="some template">
+    </div>
+    <div class="form-row" id="node-dialog-hash">
+        <label for="node-input-hash"><i class="fa fa-tasks"></i> Passcode</label>
+        <input type="text" id="node-input-hash" placeholder="sha256 hash">
     </div>
     <div class="form-row" id="node-dialog-sendtoall">
         <label style="width:auto" for="node-input-sendall"><i class="fa fa-arrow-right"></i> Send to all browser sessions. </label>
