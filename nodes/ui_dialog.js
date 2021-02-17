@@ -6,7 +6,7 @@ module.exports = function(RED) {
     function DialogNode(config) {
         RED.nodes.createNode(this, config);
         this.preset = config.preset;
-        this.gaurbrekt = config.gaurbrekt;
+        this.template = config.template;
         this.ok = config.ok;
         this.cancel = config.cancel;
         this.topic = config.topic;
@@ -31,7 +31,7 @@ module.exports = function(RED) {
             if (node.sendall === true) { delete msg.socketid; }
             ui.emitSocket("show-dialog", {
                 preset: node.preset,
-                gaurbrekt: node.gaurbrekt,
+                template: node.template,
                 // file, custom, etc
                 title: msg.title || node.name,
                 text: msg.text,

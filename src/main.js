@@ -98,13 +98,12 @@ app.config(['$mdThemingProvider', '$compileProvider', '$mdDateLocaleProvider', '
             this.abort = function() {
                 $mdDialog.cancel();
             };
-            // this.keypress = function($event) {
-            //     // hmmm
-            //     var invalidPrompt = isPrompt && this.required && !angular.isDefined(this.result);
-            //     if ($event.keyCode === $mdConstant.KEY_CODE.ENTER && !invalidPrompt) {
-            //         $mdDialog.hide(this.result);
-            //     }
-            // };
+            this.keypress = function($event) {
+                var invalidPrompt = this.required && !angular.isDefined(this.result);
+                if ($event.keyCode === 13 && !invalidPrompt) {
+                    $mdDialog.hide(this.result);
+                }
+            };
         }]
     },
 ]);
@@ -698,7 +697,7 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
             if (msg.hasOwnProperty("title") || msg.hasOwnProperty("text")) {
                 // var dialogScope = $rootScope.$new();
                 // dialogScope.dialog = msg;
-                // gaurbrekt == default:
+                // template == default:
                 // var opts = {
                 //     scope: dialogScope,
                 //     templateUrl: "partials/dialog.html"
@@ -729,7 +728,6 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
 
                 $mdDialog.show(dialog).then(
                     function(res) {
-                        console.log(res);
                         // add additional msg.properties here?
                         if(res === undefined) {
                             // no text was entered
