@@ -87,7 +87,7 @@ app.config(['$mdThemingProvider', '$compileProvider', '$mdDateLocaleProvider', '
                 };
             }
         });
-        function UiDialogController($scope, $mdDialog) {
+        var UiDialogController = ['$scope', '$mdDialog', function($scope, $mdDialog) {
             this.ok = function() {
                 $mdDialog.hide(isPrompt ? this.result : true);
             };
@@ -101,7 +101,7 @@ app.config(['$mdThemingProvider', '$compileProvider', '$mdDateLocaleProvider', '
                     $mdDialog.hide(this.result);
                 }
             };
-        }
+        }]
     },
 ]);
 
