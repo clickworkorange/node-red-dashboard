@@ -1,6 +1,6 @@
 <md-dialog md-theme="{{ dialog.theme || dialog.defaultTheme }}" aria-label="{{ dialog.ariaLabel }}" >
   <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">
-      <h2 class="md-title">Blubo{{ dialog.title }}</h2>
+      <h2 class="md-title">{{ dialog.title }}</h2>
       <div class="md-dialog-content-body"><p>{{::dialog.textContent}}</p></div>
       <md-input-container md-no-float ng-if="::dialog.$type == 'prompt'" class="md-prompt-input-container"><input ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" placeholder="{{::dialog.placeholder}}" ng-required="dialog.required">
       </md-input-container>
