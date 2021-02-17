@@ -42,8 +42,9 @@ var locale = (navigator.languages && navigator.languages.length) ? navigator.lan
 moment.locale(locale);
 
 var dateFormat;
-app.config(['$mdThemingProvider', '$compileProvider', '$mdDateLocaleProvider', '$provide',
-    function ($mdThemingProvider, $compileProvider, $mdDateLocaleProvider, $provide) {
+
+app.config(['$mdThemingProvider', '$compileProvider', '$mdDateLocaleProvider', '$mdDialogProvider', '$provide',
+    function ($mdThemingProvider, $compileProvider, $mdDateLocaleProvider, $mdDialogProvider, $provide) {
         // base theme can be default, dark, light or none
         // allowed colours for palettes
         // red, pink, purple, deep-purple, indigo, blue, light-blue, cyan, teal, green, light-green, lime, yellow, amber, orange, deep-orange, brown, grey, blue-grey
@@ -75,7 +76,33 @@ app.config(['$mdThemingProvider', '$compileProvider', '$mdDateLocaleProvider', '
         };
 
         $mdDateLocaleProvider.firstDayOfWeek = moment.localeData()._week.dow;
-    }
+
+        $mdDialogProvider.addPreset("passcode", {
+            methods: ['title', 'htmlContent', 'textContent', 'placeholder', 'ariaLabel', 'ok', 'cancel', 'theme', 'css', 'required'],
+            options: function () {
+                return {
+                    controller: UiDialogController,
+                    controllerAs: 'dialog',
+                    bindToController: true
+                };
+            }
+        });
+        function UiDialogController($scope, $mdDialog) {
+            this.ok = function() {
+                $mdDialog.hide(isPrompt ? this.result : true);
+            };
+            this.abort = function() {
+                $mdDialog.cancel();
+            };
+            this.keypress = function($event) {
+                var invalidPrompt = isPrompt && this.required && !angular.isDefined(this.result);
+
+                if ($event.keyCode === $mdConstant.KEY_CODE.ENTER && !invalidPrompt) {
+                    $mdDialog.hide(this.result);
+                }
+            };
+        }
+    },
 ]);
 
 app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$location', '$document', '$mdToast', '$mdDialog', '$rootScope', '$sce', '$timeout', '$scope', 'themeProvider', '$mdTheming',
@@ -663,15 +690,65 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
             }
         });
 
+        // function DialogController($scope, $mdDialog) {
+        //     $scope.ok = function () {
+        //         $mdDialog.hide();
+        //     };
+
+        //     $scope.cancel = function () {
+        //         $mdDialog.cancel();
+        //     };
+
+        //     $scope.answer = function (answer) {
+        //        $mdDialog.hide(answer);
+        //     };
+        // }
+
         events.on("show-dialog", function (msg) {
             if (msg.hasOwnProperty("title") || msg.hasOwnProperty("text")) {
-                var dialogScope = $rootScope.$new();
-                dialogScope.dialog = msg;
-                var opts = {
-                    scope: dialogScope,
-                    templateUrl: "partials/dialog.html"
-                };
-                $mdDialog.show(opts);
+                // var dialogScope = $rootScope.$new();
+                // dialogScope.dialog = msg;
+                // gaurbrekt == default:
+                // var opts = {
+                //     scope: dialogScope,
+                //     templateUrl: "partials/dialog.html"
+                // };
+                if (msg.preset === "alert") {
+                    var dialog = $mdDialog.alert();
+                }
+                else if (msg.preset === "confirm") {
+                    var dialog = $mdDialog.confirm();
+                    dialog.cancel(msg.cancel);
+                }
+                else if (msg.preset === "prompt") {
+                    var dialog = $mdDialog.prompt();
+                    dialog.cancel(msg.cancel);
+                }
+                else if (msg.preset === "passcode") {
+                    var dialog = $mdDialog.passcode();
+                    dialog.cancel(msg.cancel);
+                }
+                dialog._options.templateUrl = "partials/dialog.html";
+                //dialog._options.locals = {};
+
+                dialog.title(msg.title)
+                    .textContent(msg.text)
+                    .ok(msg.ok);
+                // mdDialog provides alert, confirm and prompt methods
+                // delete msg.msg.title;
+                // delete msg.msg.text;
+
+                //{ scope:toastScope, position:'top right', templateUrl:'partials/toast.html' }
+                $mdDialog.show(dialog).then(
+                    function(res) {
+                        // add additional msg.properties here?
+                        msg.msg.payload = true;
+                        events.emit({ id:msg.id, value:msg });
+                    },
+                    function() {
+                        msg.msg.payload = false;
+                        events.emit({ id:msg.id, value:msg });
+                    });
             }
         });
 
