@@ -78,29 +78,33 @@ app.config(['$mdThemingProvider', '$compileProvider', '$mdDateLocaleProvider', '
         $mdDateLocaleProvider.firstDayOfWeek = moment.localeData()._week.dow;
 
         $mdDialogProvider.addPreset("passcode", {
-            methods: ['title', 'htmlContent', 'textContent', 'placeholder', 'ariaLabel', 'ok', 'cancel', 'theme', 'css', 'required'],
+            // cloned from "prompt" dialog, without "initialValue"
+            methods: ["title", "htmlContent", "textContent", "placeholder", "ariaLabel", "ok", "cancel", "theme", "css", "required"],
             options: function () {
                 return {
                     controller: UiDialogController,
-                    controllerAs: 'dialog',
+                    controllerAs: "dialog",
                     bindToController: true
                 };
             }
         });
-        var UiDialogController = ['$scope', '$mdDialog', function($scope, $mdDialog) {
+        var UiDialogController = ["$scope", "$mdDialog", function($scope, $mdDialog) {
+            // cloned from "MdDialogController" ("prompt")
+            this.result = this.initialValue;
+
             this.hide = function() {
-                $mdDialog.hide();
+                $mdDialog.hide(this.result);
             };
             this.abort = function() {
                 $mdDialog.cancel();
             };
-            this.keypress = function($event) {
-                var invalidPrompt = isPrompt && this.required && !angular.isDefined(this.result);
-
-                if ($event.keyCode === $mdConstant.KEY_CODE.ENTER && !invalidPrompt) {
-                    $mdDialog.hide(this.result);
-                }
-            };
+            // this.keypress = function($event) {
+            //     // hmmm
+            //     var invalidPrompt = isPrompt && this.required && !angular.isDefined(this.result);
+            //     if ($event.keyCode === $mdConstant.KEY_CODE.ENTER && !invalidPrompt) {
+            //         $mdDialog.hide(this.result);
+            //     }
+            // };
         }]
     },
 ]);
@@ -690,20 +694,6 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
             }
         });
 
-        // function DialogController($scope, $mdDialog) {
-        //     $scope.ok = function () {
-        //         $mdDialog.hide();
-        //     };
-
-        //     $scope.cancel = function () {
-        //         $mdDialog.cancel();
-        //     };
-
-        //     $scope.answer = function (answer) {
-        //        $mdDialog.hide(answer);
-        //     };
-        // }
-
         events.on("show-dialog", function (msg) {
             if (msg.hasOwnProperty("title") || msg.hasOwnProperty("text")) {
                 // var dialogScope = $rootScope.$new();
@@ -734,15 +724,21 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
                 dialog.title(msg.title)
                     .textContent(msg.text)
                     .ok(msg.ok);
-                // mdDialog provides alert, confirm and prompt methods
                 // delete msg.msg.title;
                 // delete msg.msg.text;
 
-                //{ scope:toastScope, position:'top right', templateUrl:'partials/toast.html' }
                 $mdDialog.show(dialog).then(
                     function(res) {
+                        console.log(res);
                         // add additional msg.properties here?
-                        msg.msg.payload = true;
+                        if(res === undefined) {
+                            // no text was entered
+                            // hmmm
+                            msg.msg.payload = true;
+                        }
+                        else {
+                            msg.msg.payload = res;
+                        }
                         events.emit({ id:msg.id, value:msg });
                     },
                     function() {
