@@ -88,8 +88,8 @@ app.config(['$mdThemingProvider', '$compileProvider', '$mdDateLocaleProvider', '
             }
         });
         var UiDialogController = ['$scope', '$mdDialog', function($scope, $mdDialog) {
-            this.ok = function() {
-                $mdDialog.hide(isPrompt ? this.result : true);
+            this.hide = function() {
+                $mdDialog.hide();
             };
             this.abort = function() {
                 $mdDialog.cancel();
