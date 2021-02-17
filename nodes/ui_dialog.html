@@ -22,17 +22,12 @@
         label: "show dialog",
         labelStyle: function() { return this.name ? "node_label_italic" : ""; },
         oneditprepare: function() {
-            // $("#node-dialog-displayok").show();
-            // $("#node-dialog-displaycancel").show();
-            // $("#node-dialog-topic").show();
             $("#node-input-preset").on("change", function() {
                 if ($("#node-input-preset option:selected").val() === "alert") {
                     $("#node-dialog-displaycancel").hide();
-                    // $("#node-dialog-displayok").show();
                 }
                 if ($("#node-input-preset option:selected").val() === "passcode") {
                     $("#node-dialog-hash").show();
-                    // $("#node-dialog-displayok").show();
                 }
                 else {
                     $("#node-dialog-displaycancel").show();
@@ -41,12 +36,10 @@
             });
             $("#node-input-template").on("change", function() {
                 if ($("#node-input-template option:selected").val() === "custom") {
-                    //$("#node-dialog-sendall").hide();
                     $("#node-dialog-file").hide();
                     $("#node-dialog-custom").show();
                 }
                 else if ($("#node-input-template option:selected").val() === "file") {
-                    //$("#node-dialog-sendall").hide();
                     $("#node-dialog-file").show();
                     $("#node-dialog-custom").hide();
                     if (typeof $("#node-input-cancel").val() !== "string" || $("#node-input-cancel").val() === "" ) {

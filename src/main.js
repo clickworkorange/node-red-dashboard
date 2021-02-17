@@ -697,7 +697,6 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
             if (msg.hasOwnProperty("title") || msg.hasOwnProperty("text")) {
                 // var dialogScope = $rootScope.$new();
                 // dialogScope.dialog = msg;
-                // template == default:
                 // var opts = {
                 //     scope: dialogScope,
                 //     templateUrl: "partials/dialog.html"
@@ -718,32 +717,23 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
                     dialog.cancel(msg.cancel);
                 }
                 dialog._options.templateUrl = "partials/dialog.html";
-                //dialog._options.locals = {};
 
                 dialog.title(msg.title)
                     .textContent(msg.text)
                     .ok(msg.ok);
-                // delete msg.msg.title;
-                // delete msg.msg.text;
 
                 $mdDialog.show(dialog).then(
                     function(res) {
-                        // if res is object (multiple fields)
-                        // add additional msg.properties here?
                         if(res === undefined) {
                             // no text was entered
-                            // hmmm
-                            //msg.msg.payload = true;
                             msg.payload = true;
                         }
                         else {
-                            //msg.msg.payload = res;
                             msg.payload = res;
                         }
                         events.emit({ id:msg.id, value:msg.payload });
                     },
                     function() {
-                        //msg.msg.payload = false;
                         msg.payload = false;
                         events.emit({ id:msg.id, value:msg.payload });
                     });
