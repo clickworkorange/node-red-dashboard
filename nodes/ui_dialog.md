@@ -124,7 +124,10 @@ passType hash or plaintext
 
 how does "passcode" deal with multiple fields? 
 
-i18n!
+i18n
+  topic & name should use global labels
+  how to do placeholders? 
+
 helpfile!
 
 multiple form fields / drop downs etc?

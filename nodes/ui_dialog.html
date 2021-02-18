@@ -1,54 +1,55 @@
 <script type="text/html" data-template-name="dialog">
     <div class="form-row">
-        <label for="node-input-preset"><i class="fa fa-th-large"></i> <span data-i18n="dialog.preset"></span></label>
+        <label for="node-input-preset"><i class="fa fa-th-large"></i> <span data-i18n="dialog.label.preset"></span></label>
         <select type="text" id="node-input-preset" style="display:inline-block; width:70%; vertical-align:baseline;">
-            <option value="alert">Alert</option>
-            <option value="confirm">Confirm</option>
-            <option value="prompt">Prompt</option>
-            <option value="passcode">Passcode</option>
+            <option value="alert" data-i18n="dialog.option.alert"></option>
+            <option value="confirm" data-i18n="dialog.option.confirm"></option>
+            <option value="prompt" data-i18n="dialog.option.prompt"></option>
+            <option value="passcode" data-i18n="dialog.option.passcode"></option>
         </select>
     </div>
     <div class="form-row">
-        <label for="node-input-template-type"><i class="fa fa-th-large"></i> <span data-i18n="dialog.template_type"></span></label>
-        <select type="text" id="node-input-template-type" style="display:inline-block; width:70%; vertical-align:baseline;">
-            <option value="default">Default</option>
-            <option value="file">File</option>
-            <option value="custom">Custom</option>
+        <label for="node-input-templatetype"><i class="fa fa-th-large"></i> <span data-i18n="dialog.label.template_type"></span></label>
+        <select type="text" id="node-input-templatetype" style="display:inline-block; width:70%; vertical-align:baseline;">
+            <option value="default" data-i18n="dialog.option.default"></option>
+            <option value="file" data-i18n="dialog.option.file"></option>
+            <option value="custom" data-i18n="dialog.option.custom"></option>
         </select>
     </div>
-    <div class="form-row" id="node-dialog-file">
-        <label for="node-input-file"><i class="fa fa-clock-o"></i> <span data-i18n="dialog.template_file"></span></label>
-        <input type="text" id="node-input-file">
+    <div class="form-row" id="node-dialog-templatefile">
+        <label for="node-input-templatefile"><i class="fa fa-file-o"></i> <span data-i18n="dialog.label.template_file"></span></label>
+        <input type="text" id="node-input-templatefile" data-i18n="[placeholder]dialog.placeholder.template_file">
     </div>
-    <div class="form-row" id="node-dialog-custom">
-        <label for="node-input-custom"><i class="fa fa-square-o"></i> Custom</label>
-        <input type="text" id="node-input-custom" placeholder="some template">
+    <div class="form-row" id="node-dialog-templatecustom">
+        <label for="node-input-templatecustom"><i class="fa fa-square-o"></i> <span data-i18n="dialog.label.template_custom"></label>
+        <input type="text" id="node-input-templatecustom" data-i18n="[placeholder]dialog.placeholder.template_custom">
     </div>
     <div class="form-row" id="node-dialog-passcode">
-        <label for="node-input-passcode"><i class="fa fa-tasks"></i> Passcode</label>
+        <label for="node-input-passcode"><i class="fa fa-lock"></i> <span data-i18n="dialog.label.passcode"></label>
         <input type="text" id="node-input-passcode">
         <input type="hidden" id="node-input-passcodeType">
     </div>
     <div class="form-row" id="node-dialog-sendtoall">
-        <label style="width:auto" for="node-input-sendall"><i class="fa fa-arrow-right"></i> Send to all browser sessions. </label>
+        <label style="width:auto" for="node-input-sendall"><i class="fa fa-arrow-right"></i> <span data-i18n="dialog.label.send_to_all"> </label>
         <input type="checkbox" checked id="node-input-sendall" style="display:inline-block; width:auto; vertical-align:baseline;">
     </div>
     <div class="form-row" id="node-dialog-displayok">
-        <label for="node-input-ok"><i class="fa fa-check"></i> Default action label</label>
-        <input type="text" id="node-input-ok" placeholder="label for OK button">
+        <label for="node-input-ok"><i class="fa fa-check"></i> <span data-i18n="dialog.label.action_primary"></label>
+        <input type="text" id="node-input-ok" data-i18n="[placeholder]dialog.placeholder.action_primary">
     </div>
     <div class="form-row" id="node-dialog-displaycancel">
-        <label for="node-input-cancel"><i class="fa fa-times"></i> Secondary action label</label>
-        <input type="text" id="node-input-cancel" placeholder="(optional label for Cancel button)">
+        <label for="node-input-cancel"><i class="fa fa-times"></i> <span data-i18n="dialog.label.action_secondary"></label>
+        <input type="text" id="node-input-cancel" data-i18n="[placeholder]dialog.placeholder.action_secondary">
     </div>
     <div class="form-row" id="node-dialog-topic">
-        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="[msg.topic]">
+        <label for="node-input-topic"><i class="fa fa-tasks"></i> <span data-i18n="dialog.label.topic"></label>
+        <input type="text" id="node-input-topic" data-i18n="[msg.topic]">
     </div>
     <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="dialog.label.name"></label>
+        <input type="text" id="node-input-name" data-i18n="[placeholder]dialog.placeholder.name">
     </div>
+    <div class="form-tips" id="node-tip"><span data-i18n="dialog.form-tip"></span></div>
 </script>
 
 <script type="text/javascript">
@@ -57,7 +58,9 @@
         color: "rgb(119, 198, 204)",
         defaults: {
             preset: {value: "alert"},
-            templateType: {value: "default"},
+            templatetype: {value: "default"},
+            templatefile: {value: ""},
+            templatecustom: {value: ""},
             passcode: {value: ""},
             passcodeType: {value: "cred"},
             sendall: {value: true},
@@ -88,22 +91,22 @@
                     $("#node-dialog-passcode").hide();
                 }
             });
-            $("#node-input-template-type").on("change", function() {
-                if ($("#node-input-template-type option:selected").val() === "custom") {
-                    $("#node-dialog-template-file").hide();
-                    $("#node-dialog-template-custom").show();
+            $("#node-input-templatetype").on("change", function() {
+                if ($("#node-input-templatetype option:selected").val() === "custom") {
+                    $("#node-dialog-templatefile").hide();
+                    $("#node-dialog-templatecustom").show();
                 }
-                else if ($("#node-input-template-type option:selected").val() === "file") {
-                    $("#node-dialog-template-file").show();
-                    $("#node-dialog-template-custom").hide();
+                else if ($("#node-input-templatetype option:selected").val() === "file") {
+                    $("#node-dialog-templatefile").show();
+                    $("#node-dialog-templatecustom").hide();
                     if (typeof $("#node-input-cancel").val() !== "string" || $("#node-input-cancel").val() === "" ) {
                         $("#node-input-cancel").val("Cancel"); // hmmm
                     }
                 }
                 else {
                     //$("#node-dialog-sendall").show();
-                    $("#node-dialog-template-file").hide();
-                    $("#node-dialog-template-custom").hide();
+                    $("#node-dialog-templatefile").hide();
+                    $("#node-dialog-templatecustom").hide();
                 }
             });
             // typed input for hash

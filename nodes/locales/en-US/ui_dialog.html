@@ -1,4 +1,49 @@
 <script type="text/html" data-help-name="ui_dialog">
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt class="optional">payload <span class="property-type">string</span></dt>
+        <dd>The msg.payload is not used by the dialog node, but will be passed through to the second output (see Output #2 below).</dd>
+        <dt class="optional">title <span class="property-type">string</span></dt>
+        <dd>Title of the dialog.</dd>
+        <dt class="optional">text <span class="property-type">string</span></dt>
+        <dd>Text message to display in the dialog.</dd>
+        <dt class="optional">initialValue <span class="property-type">any</span></dt>
+        <dd>The initial value in a "prompt" dialog. An object with name:value pairs if the dialog has multiple fields.</dd>
+        <dt class="optional">locals["fields"] <span class="property-type">object</span></dt>
+        <dd>An object describing the fields to show in the dialog (see "Advanced usage" below).</dd>
+    </dl>
+
+    <h3>Output #1</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">any</span></dt>
+        <dd>The msg.payload on output #1 can be different types: 
+          <ul>
+            <li>true, if the dialog is an "alert" dialog.</li>
+            <li>true, if the dialog is a "confirm" dialog, and primary action is taken (e.g. "Ok").</li>
+            <li>the entered value, if the dialog is a "prompt" and primary action is taken (e.g. "Ok").</li>
+            <li>an object containing the entered values, if the dialog is a "prompt" containing multiple fields, and primary action is taken (e.g. "Ok").</li>
+            <li>true, if the dialog is a "passcode", the correct passcode was entered, and primary action is taken (e.g. "Ok)</li>
+            <li>false, in all other cases</li>
+          </ul>
+        </dd>
+    </dl>
+
+    <h3>Output #2</h3>
+    <p>The second output will output the incoming message, but only if the primary action (e.g. "Ok") was chosen. Furthermore, if the dialog is a passcode dialog, the incoming message will only be output if the correct passcode has been entered.</p>
+
+    <h3>Details</h3>
     <p>Shows <code>msg.message</code> as a popup dialog</p>
     <p>Sending a blank payload will remove any active dialog without sending any data.</p>
+
+    <h3>Basic usage</h3>
+    <p>bla bla<p>
+
+    <h3>Advanced usage</h3>
+    <p>bla bla<p>
+
+      <h4>Custom fields</h4>
+      <p>bla bla<p>
+
+      <h4>Custom templates</h4>
+      <p>bla bla<p>
 </script>

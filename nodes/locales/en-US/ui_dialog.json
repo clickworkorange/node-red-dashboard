@@ -1,0 +1,32 @@
+{
+    "dialog" : {
+        "option": {
+          "alert": "Alert",
+          "confirm": "Confirm",
+          "prompt": "Prompt",
+          "passcode": "Passcode",
+          "default": "Default",
+          "file": "File",
+          "custom": "Custom"
+        },
+        "label": {
+          "preset": "Preset",
+          "template_type": "Template",
+          "template_file": "File",
+          "passcode": "Passcode",
+          "send_to_all": "Send to all",
+          "action_primary": "Primary action",
+          "action_secondary": "Secondary action",
+          "topic": "Topic",
+          "name": "Name"
+        },
+        "placeholder": {
+          "template_file": "File containing an Angular template",
+          "template_custom": "Custom Angular template code",
+          "action_primary": "Label for Ok button",
+          "action_secondary": "Label for Cancel button",
+          "name": "Name"
+        },
+        "form-tip": "Some form tip"
+    }
+}
