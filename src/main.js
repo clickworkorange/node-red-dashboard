@@ -725,7 +725,7 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
 
                 $mdDialog.show(dialog).then(
                     function(res) {
-                        if(res === undefined) {
+                        if (res === undefined) {
                             // no text was entered
                             msg.payload = true;
                         }

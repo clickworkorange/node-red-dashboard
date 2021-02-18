@@ -27,14 +27,14 @@ module.exports = function(RED) {
                 return [msg, msg.payload ? node.incoming : null] // only forward incoming on "ok"
             },
             convertBack: function(payload) {
-                if(node.preset === "passcode") {
-                    if(typeof(payload) != "string") {
+                if (node.preset === "passcode") {
+                    if (typeof(payload) != "string") {
                         // no passcode entered
-                        return false 
+                        return false;
                     };
-                    if(node.passcode) {
-                        if(node.passcodeType === "cred") {
-                            // plaintext passcode 
+                    if (node.passcode) {
+                        if (node.passcodeType === "cred") {
+                            // plaintext passcode
                             return node.passcode === payload;
                         } else {
                             // hash the entered passcode

@@ -22,84 +22,8 @@ test passcode hash: 3fd1235acdfa43f6768b5065d425d428112799d83699674d77bf2aa884ec
 ### custom fields
 multiple fields can be used in a template by giving them unique names e.g. `ng-model="dialog.result['two']"`
     `msg.payload` will contain an object with 'two' as a key
-    fields can be dynamically created with syntax like:
-      ````
-      msg.locals = {"fields": [
-          {
-              "type": "text",
-              "name": "Text",
-              "label": "A text input"
-          },
-          {
-              "type": "password",
-              "name": "Password",
-              "label": "A password input",
-              "placeholder": "Enter password"
-          },
-          {
-              "type": "checkbox",
-              "name": "Checkboxes",
-              "label": "Some checkboxes",
-              "options": [{
-                      "name": "CheckOne",
-                      "label": "Check One",
-                      "value": "C1" 
-                  },{ 
-                      "name": "CheckTwo",
-                      "label": "Check Two",
-                      "value": "C2"
-                  }
-              ]
-          },
-          {
-              "type": "select",
-              "name": "Select",
-              "label": "A select box",
-              "default": 222,
-              "options": [{
-                      "name": "Option One",
-                      "value": 111 
-                  },{ 
-                      "name": "Option Two",
-                      "value": 222
-                  }
-      ,{ 
-                      "name": "Option Three",
-                      "value": 333
-                  }
-              ]
-          },
-          {
-              "type": "radio",
-              "name": "Radio",
-              "label": "A radio button group",
-              "value": "R2",
-              "options": [{
-                      "label": "Radio One",
-                      "value": "R1" 
-                  },{ 
-                      "label": "Radio Two",
-                      "value": "R2"
-                  }
-              ]
-          },
-          {
-              "type": "date",
-              "name": "Date",
-              "label": "A date input"
-          },
-      ]};
-      ````
-    And their default values can be set via `initalValue`:
-      ````
-      msg.initialValue = {
-          "Text": "Initial value of 'Text'",
-          "Select": 222,
-          "Radio": "R2",
-          "CheckTwo": true,
-          "Date": new Date().toLocaleDateString()
-      };
-      ````
+    fields can be dynamically created with `msg.locals["fields"]`
+    And their default values can be set via `msg.initalValue`
 
 ### output msg properties:
 msg1 = {
@@ -126,6 +50,7 @@ hook up custom & file templates
 clean up output #2 messages (should only have incoming properties?)
 
 how does "passcode" deal with multiple fields? 
+  it shouldn't
 
 i18n
   topic & name should use global labels
