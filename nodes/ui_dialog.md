@@ -17,6 +17,7 @@ output2 (if "ok")              org msg
 ### logic
 node settings are not needed in the output (drop config msg)
 validation functions for "prompt"?
+test passcode hash: 3fd1235acdfa43f6768b5065d425d428112799d83699674d77bf2aa884ec2b24
 
 ### custom fields
 multiple fields can be used in a template by giving them unique names e.g. `ng-model="dialog.result['two']"`
@@ -107,12 +108,22 @@ msg1 = {
 }
 msg2 = original message if ok/passcode passed
 
-"3fd1235acdfa43f6768b5065d425d428112799d83699674d77bf2aa884ec2b24"
-
 ### TODO:
-clean up output #2 messages (should only have incoming properties?)
+Required fields (ng-disabled="dialog.required && !dialog.result")
 
 htmlContent (in addition to textContent)
+
+Make title, textContent and htmlContent settable in config? 
+
+Tests!?
+
+hide defaultFields when `locals["fields"]` supplied
+
+hook up custom & file templates
+  custom should be textarea
+  file *could* be file chooser?
+
+clean up output #2 messages (should only have incoming properties?)
 
 how does "passcode" deal with multiple fields? 
 
@@ -123,6 +134,6 @@ helpfile
   needs more details
 
 Keypad 
-    what does alert+keypad do, send each press?
-    might this be used to create a dialog control panel?
-    or maybe this should be a separate dialog class? 
+  what does alert+keypad do, send each press?
+  might this be used to create a dialog control panel?
+  or maybe this should be a separate dialog class? 

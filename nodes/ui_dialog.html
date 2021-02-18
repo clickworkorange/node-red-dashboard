@@ -64,7 +64,7 @@
             passcode: {value: ""},
             passcodeType: {value: "cred"},
             sendall: {value: true},
-            outputs: {value: 0},
+            //outputs: {value: 0},
             ok: {value: "OK", required: true},
             cancel: {value: ""},
             custom: {value: false},
@@ -82,6 +82,7 @@
             $("#node-input-preset").on("change", function() {
                 if ($("#node-input-preset option:selected").val() === "alert") {
                     $("#node-dialog-displaycancel").hide();
+                    $("#node-dialog-passcode").hide();
                 }
                 else if ($("#node-input-preset option:selected").val() === "passcode") {
                     $("#node-dialog-passcode").show();

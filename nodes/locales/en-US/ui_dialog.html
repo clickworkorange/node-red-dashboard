@@ -2,48 +2,157 @@
     <h3>Inputs</h3>
     <dl class="message-properties">
         <dt class="optional">payload <span class="property-type">string</span></dt>
-        <dd>The msg.payload is not used by the dialog node, but will be passed through to the second output (see Output #2 below).</dd>
+        <dd>The <code>msg.payload</code> is <i>not used</i> by the dialog node, but will be passed through to the second output under certain conditions (see Output #2 below).</dd>
         <dt class="optional">title <span class="property-type">string</span></dt>
         <dd>Title of the dialog.</dd>
         <dt class="optional">text <span class="property-type">string</span></dt>
         <dd>Text message to display in the dialog.</dd>
-        <dt class="optional">initialValue <span class="property-type">any</span></dt>
-        <dd>The initial value in a "prompt" dialog. An object with name:value pairs if the dialog has multiple fields.</dd>
+        <dt class="optional">html <span class="property-type">string</span></dt>
+        <dd>HTML formatted message to display in the dialog. (not yet implemented!)</dd>
+        <dt class="optional">initialValue <span class="property-type">varies</span></dt>
+        <dd>The initial value in a "prompt" dialog,or an object with name:value pairs if the dialog has multiple fields (see "Custom fields" below).</dd>
         <dt class="optional">locals["fields"] <span class="property-type">object</span></dt>
-        <dd>An object describing the fields to show in the dialog (see "Advanced usage" below).</dd>
+        <dd>An object describing the fields to show in the dialog (see "Custom fields" below).</dd>
     </dl>
 
     <h3>Output #1</h3>
     <dl class="message-properties">
-        <dt>payload <span class="property-type">any</span></dt>
-        <dd>The msg.payload on output #1 can be different types: 
+        <dt>payload <span class="property-type">varies</span></dt>
+        <dd>The <code>msg.payload</code> on output #1 can be different types: 
           <ul>
-            <li>true, if the dialog is an "alert" dialog.</li>
-            <li>true, if the dialog is a "confirm" dialog, and primary action is taken (e.g. "Ok").</li>
-            <li>the entered value, if the dialog is a "prompt" and primary action is taken (e.g. "Ok").</li>
-            <li>an object containing the entered values, if the dialog is a "prompt" containing multiple fields, and primary action is taken (e.g. "Ok").</li>
-            <li>true, if the dialog is a "passcode", the correct passcode was entered, and primary action is taken (e.g. "Ok)</li>
-            <li>false, in all other cases</li>
+            <li><code>true</code>, if the dialog is an "alert" dialog.</li>
+            <li><code>true</code>, if the dialog is a "confirm" dialog, and primary action is taken (e.g. "Ok").</li>
+            <li><b>the entered value</b>, if the dialog is a "prompt" and primary action is taken (e.g. "Ok").</li>
+            <li><b>an object</b> containing the entered values, if the dialog is a "prompt" containing multiple fields, and primary action is taken (e.g. "Ok").</li>
+            <li><code>true</code>, if this is a "passcode" dialog, <i>the correct passcode was entered</i>, and primary action is taken (e.g. "Ok")</li>
+            <li><code>false</code>, in all other cases</li>
           </ul>
         </dd>
     </dl>
 
     <h3>Output #2</h3>
-    <p>The second output will output the incoming message, but only if the primary action (e.g. "Ok") was chosen. Furthermore, if the dialog is a passcode dialog, the incoming message will only be output if the correct passcode has been entered.</p>
+    <p>The second output will output the incoming message, but only if the primary action (e.g. "Ok") was chosen. Furthermore, the incoming message will be <i>dropped</i> if the dialog is a prompt dialog and no value(s) have been entered, or if it is a passcode dialog and <i>an incorrect passcode has been entered</i>.</p>
 
     <h3>Details</h3>
     <p>Shows <code>msg.text</code> as a popup dialog</p>
     <p>Sending a blank payload will remove any active dialog without sending any data.</p>
 
     <h3>Basic usage</h3>
-    <p>bla bla<p>
+    <p>Four different dialog types are available:<p>
+    <dl>
+      <dt>Alert</dt>
+      <dd>A basic alert box which displays a message and can be dismissed with a button.</dd>
+      <dt>Confirm</dt>
+      <dd>Displays a message and asks the user to confirm (primary action) or abort (secondary action).</dd>
+      <dt>Prompt</dt>
+      <dd>Asks for user text input.</dd>
+      <dt>Passcode</dt>
+      <dd>Asks for a passcode. A master passcode can be supplied either as a local plain text <code>cred</code>, <i>or</i> as an SHA-256 hashed local, flow or global <code>string</code>.</dd>
+    </dl>
 
-    <h3>Advanced usage</h3>
-    <p>bla bla<p>
+    <h3>Custom fields</h3>
+    <p>Custom fields can be provided for a "prompt" dialog by supplying a <code>msg.locals["fields"]</code> parameter describing the fields. The initial value of a field can be set with <code>msg.initialValue</code>. The fields supported by the default template include:</p>
+    <dl>
+      <dt>Text input</dt>
+      <dd>
+<pre>msg.locals = {"fields": [{
+    "type": "text",
+    "name": "myText",
+    "label": "My text input"
+}]
+msg.initialValue = {
+  "myText": "My initial value"
+}</pre>
+      </dd>
+      <dt>Password input</dt>
+      <dd>
+<pre>msg.locals = {"fields": [{
+    "type": "password",
+    "name": "myPass",
+    "label": "My password input"
+  }]
+}
 
-      <h4>Custom fields</h4>
-      <p>bla bla<p>
+msg.initialValue = {
+  "myPass": "My initial password"
+}</pre>
+      </dd>
+      <dt>Select box</dt>
+      <dd>
+<pre>msg.locals = {"fields": [{
+    "type": "select",
+    "name": "mySelect",
+    "label": "A select box",
+    "options": [{
+            "name": "Option One",
+            "value": 111 
+        },{ 
+            "name": "Option Two",
+            "value": 222
+        }]
+  }]
+}
 
-      <h4>Custom templates</h4>
-      <p>bla bla<p>
+msg.initialValue = {
+  "mySelect": 222
+}</pre>
+      </dd>
+      <dt>Radio buttons</dt>
+      <dd>
+<pre>msg.locals = {"fields": [{
+    "type": "radio",
+    "name": "myRadio",
+    "label": "A radio button group",
+    "value": "R2",
+    "options": [{
+            "label": "Radio One",
+            "value": "R1" 
+        },{ 
+            "label": "Radio Two",
+            "value": "R2"
+        }]
+  }]
+}
+
+msg.initialValue = {
+    "myRadio": "R2"
+}</pre>
+      </dd>
+      <dt>Checkboxes</dt>
+      <dd>T.b.d.</dd>
+      <dt>Date input</dt>
+      <dd>
+<pre>msg.locals = {"fields": [{
+    "type": "date",
+    "name": "myDate",
+    "label": "A date input"
+  }]
+}
+
+msg.initialValue = {
+    "myDate": new Date().toLocaleDateString()
+}</pre>
+    </dl>
+    <p>Note that it is not currently possible to specify which fields are "required", or change the action buttons, without supplying a "Custom" template (see below).</p>
+
+    <h3>Custom templates</h3>
+    <p>A custom dialog template can be substituted by specifying a "File" to use, or by entering a "Custom" template directly in the configuration window. Certain Angular elements are required to make a fully functioning template:</p>
+    <dl>
+      <dt><code>&lt;md-dialog&lt;</code></dt>
+      <dd>Container element for the entire dialog.</dd>
+      <dt><code>&lt;md-dialog-content&gt;</code></dt>
+      <dd>Container element for the dialog title, text and field(s).</dd>
+      <dt><code>{{ dialog.title }}</code></dt>
+      <dd>Contents of the msg.title parameter</dd>
+      <dt><code>{{::dialog.textContent}}</code></dt>
+      <dd>Contents of the msg.text parameter</dd>
+      <dt><code>ng-bind-html="::dialog.mdHtmlContent | trusted"</code></dt>
+      <dd>Binds the contents of the msg.html parameter to an Angular container (e.g. a &lt;div&gt;)</dd>
+      <dt><code>&lt;md-dialog-actions&gt;</code></dt>
+      <dd>Container element for the action buttons</dd>
+      <dt><code>&lt;md-button ng-click="dialog.abort()"&gt;{{ dialog.cancel }}&lt;/md-button&gt;</code></dt>
+      <dd>Action button to dismiss the dialog (e.g. "Cancel").</dd>
+      <dt><code>&lt;md-button ng-click="dialog.hide()"&gt;{{ dialog.ok }}&lt;/md-button&gt;</code></dt>
+      <dd>Action button to confirm the dialog (e.g. "Ok")</dd>
+    </dl>
 </script>
