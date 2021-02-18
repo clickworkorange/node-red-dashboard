@@ -3,7 +3,7 @@
       <h2 class="md-title">{{ dialog.title }}</h2>
       <div class="md-dialog-content-body"><p>{{::dialog.textContent}}</p></div>
 
-      <ng-container *ngIf="dialog.locals.fields && dialog.type == 'prompt'; else defaultFields">
+      <ng-container ng-if="dialog.locals.fields">
         <md-input-container md-no-float ng-repeat="field in dialog.locals.fields" class="md-prompt-input-container">
           <label>{{ field.label }}</label>
           <input type="{{field.type}}" ng-if="field.type == 'text' || field.type == 'password'" ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result[field.name]" placeholder="{{::field.placeholder}}" ng-required="field.required" aria-label="{{field.label}}">
@@ -27,12 +27,12 @@
         </md-input-container>
       </ng-container>
 
-      <ng-template #defaultFields>
+      <ng-container ng-if="!dialog.locals.fields">
         <md-input-container md-no-float ng-if="::dialog.$type == 'prompt'" class="md-prompt-input-container"><input ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" placeholder="{{::dialog.placeholder}}" ng-required="dialog.required">
         </md-input-container>
         <md-input-container md-no-float ng-if="::dialog.$type == 'passcode'" class="md-prompt-input-container"><input type="password" ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" placeholder="{{::dialog.placeholder}}" ng-required="dialog.required">
         </md-input-container>
-      </ng-template>
+      </ng-container>
   </md-dialog-content>
   <md-dialog-actions>
       <md-button ng-if="dialog.$type != 'alert'" ng-click="dialog.abort()" class="md-primary md-cancel-button">{{ dialog.cancel }}</md-button>

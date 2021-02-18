@@ -716,7 +716,19 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
                     var dialog = $mdDialog.passcode();
                     dialog.cancel(msg.cancel);
                 }
-                dialog._options.templateUrl = "partials/dialog.html";
+
+                console.log(msg.templateType);
+                
+                if (msg.templateType === "custom") {
+                    dialog._options.template = msg.templateCustom;
+                }
+                else if (msg.templateType === "file") {
+                    dialog._options.templateUrl = msg.templateFile;
+                }
+                else {
+                    dialog._options.templateUrl = "partials/dialog.html";
+                }
+
                 dialog._options.locals = msg.locals;
 
                 dialog.title(msg.title)

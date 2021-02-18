@@ -33,21 +33,19 @@ msg1 = {
 msg2 = original message if ok/passcode passed
 
 ### TODO:
-Required fields (ng-disabled="dialog.required && !dialog.result")
+hide defaultFields when `locals["fields"]` supplied
+
+improve default template logic
 
 htmlContent (in addition to textContent)
 
 Make title, textContent and htmlContent settable in config? 
 
+Required fields (ng-disabled="dialog.required && !dialog.result")
+
 Tests!?
 
-hide defaultFields when `locals["fields"]` supplied
-
-hook up custom & file templates
-  custom should be textarea
-  file *could* be file chooser?
-
-clean up output #2 messages (should only have incoming properties?)
+clean up output #2 messages (strip all dialog properties?)
 
 how does "passcode" deal with multiple fields? 
   it shouldn't

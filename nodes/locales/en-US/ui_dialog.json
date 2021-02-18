@@ -13,6 +13,7 @@
           "preset": "Preset",
           "template_type": "Template",
           "template_file": "File",
+          "template_custom": "Custom",
           "passcode": "Passcode",
           "send_to_all": "Send to all",
           "action_primary": "Primary action",
