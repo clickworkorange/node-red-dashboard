@@ -717,8 +717,6 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
                     dialog.cancel(msg.cancel);
                 }
 
-                console.log(msg.templateType);
-                
                 if (msg.templateType === "custom") {
                     dialog._options.template = msg.templateCustom;
                 }

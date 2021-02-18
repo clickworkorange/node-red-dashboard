@@ -33,8 +33,6 @@ msg1 = {
 msg2 = original message if ok/passcode passed
 
 ### TODO:
-hide defaultFields when `locals["fields"]` supplied
-
 improve default template logic
 
 htmlContent (in addition to textContent)
