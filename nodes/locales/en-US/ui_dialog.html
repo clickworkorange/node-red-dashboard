@@ -1,4 +1,4 @@
-<script type="text/html" data-help-name="ui_dialog">
+<script type="text/html" data-help-name="dialog">
     <h3>Inputs</h3>
     <dl class="message-properties">
         <dt class="optional">payload <span class="property-type">string</span></dt>
@@ -32,7 +32,7 @@
     <p>The second output will output the incoming message, but only if the primary action (e.g. "Ok") was chosen. Furthermore, if the dialog is a passcode dialog, the incoming message will only be output if the correct passcode has been entered.</p>
 
     <h3>Details</h3>
-    <p>Shows <code>msg.message</code> as a popup dialog</p>
+    <p>Shows <code>msg.text</code> as a popup dialog</p>
     <p>Sending a blank payload will remove any active dialog without sending any data.</p>
 
     <h3>Basic usage</h3>
