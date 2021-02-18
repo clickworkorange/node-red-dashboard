@@ -25,25 +25,90 @@ cancel == secondary action
 node settings are not needed in the output (drop config msg)
 cancel/esc/etc should send false on out1, nothing on out2
 validation functions for "prompt"?
+
+### custom fields
 multiple fields can be used in a template by giving them unique names e.g. `ng-model="dialog.result['two']"`
-    `msg.payload` will be an object with 'two' as a key
+    `msg.payload` will contain an object with 'two' as a key
     fields can be dynamically created with syntax like:
-      `msg.locals.fields` = [{
-           "type": "text",
-           "name": "First Field",
-           "default": "Default 1"
-       }, {
-           "type": "text",
-           "name": "Second Field",
-           "default": "Default 2"
-       }]
-how does "passcode" deal with multiple fields? 
-    encryt as string (convert to JSON after decrypt)
-should "passcode" change name to "encrypted"?
+      ````
+      msg.locals = {"fields": [
+          {
+              "type": "text",
+              "name": "Text",
+              "label": "A text input"
+          },
+          {
+              "type": "password",
+              "name": "Password",
+              "label": "A password input",
+              "placeholder": "Enter password"
+          },
+          {
+              "type": "checkbox",
+              "name": "Checkboxes",
+              "label": "Some checkboxes",
+              "options": [{
+                      "name": "CheckOne",
+                      "label": "Check One",
+                      "value": "C1" 
+                  },{ 
+                      "name": "CheckTwo",
+                      "label": "Check Two",
+                      "value": "C2"
+                  }
+              ]
+          },
+          {
+              "type": "select",
+              "name": "Select",
+              "label": "A select box",
+              "default": 222,
+              "options": [{
+                      "name": "Option One",
+                      "value": 111 
+                  },{ 
+                      "name": "Option Two",
+                      "value": 222
+                  }
+      ,{ 
+                      "name": "Option Three",
+                      "value": 333
+                  }
+              ]
+          },
+          {
+              "type": "radio",
+              "name": "Radio",
+              "label": "A radio button group",
+              "value": "R2",
+              "options": [{
+                      "label": "Radio One",
+                      "value": "R1" 
+                  },{ 
+                      "label": "Radio Two",
+                      "value": "R2"
+                  }
+              ]
+          },
+          {
+              "type": "date",
+              "name": "Date",
+              "label": "A date input"
+          },
+      ]};
+      ````
+    And their default values can be set via `initalValue`:
+      ````
+      msg.initialValue = {
+          "Text": "Initial value of 'Text'",
+          "Select": 222,
+          "Radio": "R2",
+          "CheckTwo": true,
+          "Date": new Date().toLocaleDateString()
+      };
+      ````
 
-md-datepicker
-
-### message properties:
+### output msg properties:
 msg1 = {
   topic: node.topic || msg.topic,
   payload: value(s) if prompt & ok, hash if passcode & ok, else true / false (ok / cancel),
@@ -57,12 +122,15 @@ passType hash or plaintext
   hash input should allow flow/global var, or string
   plaintext should allow password
 
+how does "passcode" deal with multiple fields? 
+
+i18n!
 helpfile!
 
 multiple form fields / drop downs etc?
     this can be done with a custom template and e.g. `ng-repeat`
-Templating
-  Keypad 
-      what does alert+keypad do, send each press?
-      might this be used to create a dialog control panel?
-      or maybe this should be a separate dialog class? 
+
+Keypad 
+    what does alert+keypad do, send each press?
+    might this be used to create a dialog control panel?
+    or maybe this should be a separate dialog class? 

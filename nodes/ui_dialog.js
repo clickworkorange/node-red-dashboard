@@ -6,7 +6,8 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
         this.preset = config.preset;
         this.template = config.template;
-        this.hash = config.hash;
+        this.passcode = config.passcode;
+        this.passcodeType = config.passcodeType;
         this.ok = config.ok;
         this.cancel = config.cancel;
         this.topic = config.topic;
@@ -31,14 +32,14 @@ module.exports = function(RED) {
                         // no passcode entered
                         return false 
                     };
-                    var hash = crypto.createHash("sha256").update(payload, "utf8").digest("hex");
-                    if(node.hash) {
-                        // compare the entered passcode with node.hash
-                        return hash === node.hash;
-                    }
-                    else {
-                        // no node.hash defined, return hashed passcode
-                        return hash;
+                    if(node.passcode) {
+                        if(node.passcodeType === "cred") {
+                            // plaintext passcode 
+                            return node.passcode === payload;
+                        } else {
+                            // hash the entered passcode
+                            return node.passcode === crypto.createHash("sha256").update(payload, "utf8").digest("hex");
+                        }
                     }
                 }
                 return payload;
@@ -50,7 +51,7 @@ module.exports = function(RED) {
             if (node.sendall === true) { delete msg.socketid; }
             ui.emitSocket("show-dialog", {
                 preset: node.preset,
-                template: node.template,
+                templateType: node.templateType,
                 title: msg.title || node.name,
                 text: msg.text,
                 initialValue: msg.initialValue,

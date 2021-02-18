@@ -710,7 +710,7 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
                 }
                 else if (msg.preset === "prompt") {
                     var dialog = $mdDialog.prompt();
-                    dialog.cancel(msg.cancel);
+                    dialog.cancel(msg.cancel).initialValue(msg.initialValue);
                 }
                 else if (msg.preset === "passcode") {
                     var dialog = $mdDialog.passcode();
@@ -721,7 +721,6 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
 
                 dialog.title(msg.title)
                     .textContent(msg.text)
-                    .initialValue(msg.initialValue)
                     .ok(msg.ok);
 
                 $mdDialog.show(dialog).then(

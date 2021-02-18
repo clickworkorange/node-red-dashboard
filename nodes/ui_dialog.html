@@ -1,6 +1,6 @@
 <script type="text/html" data-template-name="dialog">
     <div class="form-row">
-        <label for="node-input-preset"><i class="fa fa-th-large"></i> Preset</label>
+        <label for="node-input-preset"><i class="fa fa-th-large"></i> <span data-i18n="dialog.preset"></span></label>
         <select type="text" id="node-input-preset" style="display:inline-block; width:70%; vertical-align:baseline;">
             <option value="alert">Alert</option>
             <option value="confirm">Confirm</option>
@@ -9,25 +9,25 @@
         </select>
     </div>
     <div class="form-row">
-        <label for="node-input-template"><i class="fa fa-th-large"></i> template</label>
-        <select type="text" id="node-input-template" style="display:inline-block; width:70%; vertical-align:baseline;">
+        <label for="node-input-template-type"><i class="fa fa-th-large"></i> <span data-i18n="dialog.template_type"></span></label>
+        <select type="text" id="node-input-template-type" style="display:inline-block; width:70%; vertical-align:baseline;">
             <option value="default">Default</option>
             <option value="file">File</option>
             <option value="custom">Custom</option>
         </select>
     </div>
     <div class="form-row" id="node-dialog-file">
-        <label for="node-input-file"><i class="fa fa-clock-o"></i> File</label>
+        <label for="node-input-file"><i class="fa fa-clock-o"></i> <span data-i18n="dialog.template_file"></span></label>
         <input type="text" id="node-input-file">
     </div>
     <div class="form-row" id="node-dialog-custom">
         <label for="node-input-custom"><i class="fa fa-square-o"></i> Custom</label>
         <input type="text" id="node-input-custom" placeholder="some template">
     </div>
-    <div class="form-row" id="node-dialog-hash">
-        <label for="node-input-hash"><i class="fa fa-tasks"></i> Passcode</label>
-        <input type="text" id="node-input-hash" placeholder="sha256 hash">
-        <input type="hidden" id="node-input-hashType">
+    <div class="form-row" id="node-dialog-passcode">
+        <label for="node-input-passcode"><i class="fa fa-tasks"></i> Passcode</label>
+        <input type="text" id="node-input-passcode">
+        <input type="hidden" id="node-input-passcodeType">
     </div>
     <div class="form-row" id="node-dialog-sendtoall">
         <label style="width:auto" for="node-input-sendall"><i class="fa fa-arrow-right"></i> Send to all browser sessions. </label>
@@ -57,9 +57,9 @@
         color: "rgb(119, 198, 204)",
         defaults: {
             preset: {value: "alert"},
-            template: {value: "default"},
-            hash: {value: ""},
-            hashType: {value: "cred"},
+            templateType: {value: "default"},
+            passcode: {value: ""},
+            passcodeType: {value: "cred"},
             sendall: {value: true},
             outputs: {value: 0},
             ok: {value: "OK", required: true},
@@ -81,36 +81,36 @@
                     $("#node-dialog-displaycancel").hide();
                 }
                 else if ($("#node-input-preset option:selected").val() === "passcode") {
-                    $("#node-dialog-hash").show();
+                    $("#node-dialog-passcode").show();
                 }
                 else {
                     $("#node-dialog-displaycancel").show();
-                    $("#node-dialog-hash").hide();
+                    $("#node-dialog-passcode").hide();
                 }
             });
-            $("#node-input-template").on("change", function() {
-                if ($("#node-input-template option:selected").val() === "custom") {
-                    $("#node-dialog-file").hide();
-                    $("#node-dialog-custom").show();
+            $("#node-input-template-type").on("change", function() {
+                if ($("#node-input-template-type option:selected").val() === "custom") {
+                    $("#node-dialog-template-file").hide();
+                    $("#node-dialog-template-custom").show();
                 }
-                else if ($("#node-input-template option:selected").val() === "file") {
-                    $("#node-dialog-file").show();
-                    $("#node-dialog-custom").hide();
+                else if ($("#node-input-template-type option:selected").val() === "file") {
+                    $("#node-dialog-template-file").show();
+                    $("#node-dialog-template-custom").hide();
                     if (typeof $("#node-input-cancel").val() !== "string" || $("#node-input-cancel").val() === "" ) {
                         $("#node-input-cancel").val("Cancel"); // hmmm
                     }
                 }
                 else {
                     //$("#node-dialog-sendall").show();
-                    $("#node-dialog-file").hide();
-                    $("#node-dialog-custom").hide();
+                    $("#node-dialog-template-file").hide();
+                    $("#node-dialog-template-custom").hide();
                 }
             });
             // typed input for hash
-            $("#node-input-hash").typedInput({
+            $("#node-input-passcode").typedInput({
                 default: "str",
                 types: ["cred","str","flow","global"],
-                typeField: $("#node-input-hashType")
+                typeField: $("#node-input-passcodeType")
             });
         },
         oneditsave: function() {
