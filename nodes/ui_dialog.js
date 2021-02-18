@@ -53,6 +53,8 @@ module.exports = function(RED) {
                 template: node.template,
                 title: msg.title || node.name,
                 text: msg.text,
+                initialValue: msg.initialValue,
+                locals: msg.locals,
                 id: node.id,
                 ok: node.ok,
                 cancel: node.cancel,

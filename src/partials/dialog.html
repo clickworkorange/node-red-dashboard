@@ -2,10 +2,37 @@
   <md-dialog-content class="md-dialog-content" role="document" tabIndex="-1">
       <h2 class="md-title">{{ dialog.title }}</h2>
       <div class="md-dialog-content-body"><p>{{::dialog.textContent}}</p></div>
-      <md-input-container md-no-float ng-if="::dialog.$type == 'prompt'" class="md-prompt-input-container"><input ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" placeholder="{{::dialog.placeholder}}" ng-required="dialog.required">
-      </md-input-container>
-      <md-input-container md-no-float ng-if="::dialog.$type == 'passcode'" class="md-prompt-input-container"><input type="password" ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" placeholder="{{::dialog.placeholder}}" ng-required="dialog.required">
-      </md-input-container>
+
+      <ng-container *ngIf="dialog.locals.fields; else defaultFields">
+        <md-input-container md-no-float ng-repeat="field in dialog.locals.fields" class="md-prompt-input-container">
+          <label>{{ field.label }}</label>
+          <input type="{{field.type}}" ng-if="field.type == 'text' || field.type == 'password'" ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result[field.name]" placeholder="{{::field.placeholder}}" ng-required="field.required" aria-label="{{field.label}}">
+
+          <md-select ng-if="field.type == 'select'" ng-model="dialog.result[field.name]" aria-label="{{field.label}}">
+            <md-option ng-repeat="option in field.options" ng-value="option.value">{{option.name}}</md-option>
+          </md-select>
+
+          <md-checkbox ng-repeat="option in field.options" ng-model="dialog.result[option.name]" ng-if="field.type == 'checkbox'" aria-label="{{option.label}}">
+            {{option.label}}
+          </md-checkbox>
+
+          <md-radio-group ng-model="dialog.result[field.name]" ng-if="field.type == 'radio'">
+            <md-radio-button ng-repeat="option in field.options" ng-value="option.value" aria-label="{{option.label}}">
+              {{ option.label }}
+            </md-radio-button>
+          </md-radio-group>
+
+          <md-datepicker ng-model="dialog.result[field.name]" ng-value="field.value" ng-if="field.type == 'date'"></md-datepicker>
+
+        </md-input-container>
+      </ng-container>
+
+      <ng-template #defaultFields>
+        <md-input-container md-no-float ng-if="::dialog.$type == 'prompt'" class="md-prompt-input-container"><input ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" placeholder="{{::dialog.placeholder}}" ng-required="dialog.required">
+        </md-input-container>
+        <md-input-container md-no-float ng-if="::dialog.$type == 'passcode'" class="md-prompt-input-container"><input type="password" ng-keypress="dialog.keypress($event)" md-autofocus ng-model="dialog.result" placeholder="{{::dialog.placeholder}}" ng-required="dialog.required">
+        </md-input-container>
+      </ng-template>
   </md-dialog-content>
   <md-dialog-actions>
       <md-button ng-if="dialog.$type != 'alert'" ng-click="dialog.abort()" class="md-primary md-cancel-button">{{ dialog.cancel }}</md-button>

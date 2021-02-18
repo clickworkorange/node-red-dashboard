@@ -1,3 +1,56 @@
+<script type="text/html" data-template-name="dialog">
+    <div class="form-row">
+        <label for="node-input-preset"><i class="fa fa-th-large"></i> Preset</label>
+        <select type="text" id="node-input-preset" style="display:inline-block; width:70%; vertical-align:baseline;">
+            <option value="alert">Alert</option>
+            <option value="confirm">Confirm</option>
+            <option value="prompt">Prompt</option>
+            <option value="passcode">Passcode</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-template"><i class="fa fa-th-large"></i> template</label>
+        <select type="text" id="node-input-template" style="display:inline-block; width:70%; vertical-align:baseline;">
+            <option value="default">Default</option>
+            <option value="file">File</option>
+            <option value="custom">Custom</option>
+        </select>
+    </div>
+    <div class="form-row" id="node-dialog-file">
+        <label for="node-input-file"><i class="fa fa-clock-o"></i> File</label>
+        <input type="text" id="node-input-file">
+    </div>
+    <div class="form-row" id="node-dialog-custom">
+        <label for="node-input-custom"><i class="fa fa-square-o"></i> Custom</label>
+        <input type="text" id="node-input-custom" placeholder="some template">
+    </div>
+    <div class="form-row" id="node-dialog-hash">
+        <label for="node-input-hash"><i class="fa fa-tasks"></i> Passcode</label>
+        <input type="text" id="node-input-hash" placeholder="sha256 hash">
+        <input type="hidden" id="node-input-hashType">
+    </div>
+    <div class="form-row" id="node-dialog-sendtoall">
+        <label style="width:auto" for="node-input-sendall"><i class="fa fa-arrow-right"></i> Send to all browser sessions. </label>
+        <input type="checkbox" checked id="node-input-sendall" style="display:inline-block; width:auto; vertical-align:baseline;">
+    </div>
+    <div class="form-row" id="node-dialog-displayok">
+        <label for="node-input-ok"><i class="fa fa-check"></i> Default action label</label>
+        <input type="text" id="node-input-ok" placeholder="label for OK button">
+    </div>
+    <div class="form-row" id="node-dialog-displaycancel">
+        <label for="node-input-cancel"><i class="fa fa-times"></i> Secondary action label</label>
+        <input type="text" id="node-input-cancel" placeholder="(optional label for Cancel button)">
+    </div>
+    <div class="form-row" id="node-dialog-topic">
+        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="[msg.topic]">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
 <script type="text/javascript">
     RED.nodes.registerType("dialog", {
         category: "dashboard",
@@ -6,6 +59,7 @@
             preset: {value: "alert"},
             template: {value: "default"},
             hash: {value: ""},
+            hashType: {value: "cred"},
             sendall: {value: true},
             outputs: {value: 0},
             ok: {value: "OK", required: true},
@@ -26,7 +80,7 @@
                 if ($("#node-input-preset option:selected").val() === "alert") {
                     $("#node-dialog-displaycancel").hide();
                 }
-                if ($("#node-input-preset option:selected").val() === "passcode") {
+                else if ($("#node-input-preset option:selected").val() === "passcode") {
                     $("#node-dialog-hash").show();
                 }
                 else {
@@ -52,6 +106,12 @@
                     $("#node-dialog-custom").hide();
                 }
             });
+            // typed input for hash
+            $("#node-input-hash").typedInput({
+                default: "str",
+                types: ["cred","str","flow","global"],
+                typeField: $("#node-input-hashType")
+            });
         },
         oneditsave: function() {
             // if ($("#node-input-preset option:selected").val() === "alert") { this.outputs = 1; }
@@ -59,56 +119,6 @@
             // else { this.outputs = 2; }
         }
     });
-</script>
 
-<script type="text/html" data-template-name="dialog">
-    <div class="form-row">
-        <label for="node-input-preset"><i class="fa fa-th-large"></i> Preset</label>
-        <select type="text" id="node-input-preset" style="display:inline-block; width:70%; vertical-align:baseline;">
-            <option value="confirm">Confirm</option>
-            <option value="alert">Alert</option>
-            <option value="prompt">Prompt</option>
-            <option value="passcode">Passcode</option>
-        </select>
-    </div>
-    <div class="form-row">
-        <label for="node-input-template"><i class="fa fa-th-large"></i> template</label>
-        <select type="text" id="node-input-template" style="display:inline-block; width:70%; vertical-align:baseline;">
-            <option value="default">Default</option>
-            <option value="file">File</option>
-            <option value="custom">Custom</option>
-        </select>
-    </div>
-    <div class="form-row" id="node-dialog-file">
-        <label for="node-input-file"><i class="fa fa-clock-o"></i> File</label>
-        <input type="text" id="node-input-file">
-    </div>
-    <div class="form-row" id="node-dialog-custom">
-        <label for="node-input-custom"><i class="fa fa-square-o"></i> Custom</label>
-        <input type="text" id="node-input-custom" placeholder="some template">
-    </div>
-    <div class="form-row" id="node-dialog-hash">
-        <label for="node-input-hash"><i class="fa fa-tasks"></i> Passcode</label>
-        <input type="text" id="node-input-hash" placeholder="sha256 hash">
-    </div>
-    <div class="form-row" id="node-dialog-sendtoall">
-        <label style="width:auto" for="node-input-sendall"><i class="fa fa-arrow-right"></i> Send to all browser sessions. </label>
-        <input type="checkbox" checked id="node-input-sendall" style="display:inline-block; width:auto; vertical-align:baseline;">
-    </div>
-    <div class="form-row" id="node-dialog-displayok">
-        <label for="node-input-ok"><i class="fa fa-check"></i> Default action label</label>
-        <input type="text" id="node-input-ok" placeholder="label for OK button">
-    </div>
-    <div class="form-row" id="node-dialog-displaycancel">
-        <label for="node-input-cancel"><i class="fa fa-times"></i> Secondary action label</label>
-        <input type="text" id="node-input-cancel" placeholder="(optional label for Cancel button)">
-    </div>
-    <div class="form-row" id="node-dialog-topic">
-        <label for="node-input-topic"><i class="fa fa-tasks"></i> Topic</label>
-        <input type="text" id="node-input-topic" placeholder="[msg.topic]">
-    </div>
-    <div class="form-row">
-        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
-    </div>
+//str: {value:"str",label:"string",icon:"red/images/typedInput/az.svg"},
 </script>

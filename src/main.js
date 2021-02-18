@@ -717,9 +717,11 @@ app.controller('MainController', ['$mdSidenav', '$window', 'UiEvents', '$locatio
                     dialog.cancel(msg.cancel);
                 }
                 dialog._options.templateUrl = "partials/dialog.html";
+                dialog._options.locals = msg.locals;
 
                 dialog.title(msg.title)
                     .textContent(msg.text)
+                    .initialValue(msg.initialValue)
                     .ok(msg.ok);
 
                 $mdDialog.show(dialog).then(
