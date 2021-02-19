@@ -33,6 +33,10 @@ msg1 = {
 msg2 = original message if ok/passcode passed
 
 ### TODO:
+setting initialValues make fields appear in output even if not present in locals.fields
+
+Sending a blank payload will remove any active dialog without sending any data.
+
 improve default template logic
 
 htmlContent (in addition to textContent)

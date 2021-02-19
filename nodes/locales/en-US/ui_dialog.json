@@ -26,6 +26,7 @@
           "template_custom": "Custom Angular template code",
           "action_primary": "Label for Ok button",
           "action_secondary": "Label for Cancel button",
+          "topic": "Topic",
           "name": "Name"
         },
         "form-tip": "Some form tip"

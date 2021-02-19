@@ -26,6 +26,10 @@ module.exports = function(RED) {
             forwardInputMessages: false,
             beforeSend: function (msg) {
                 msg.topic = node.topic || node.incoming.topic;
+                // strip all dialog properties from the incoming msg 
+                for(var property of ["title", "text", "initialValue", "locals"]) {
+                    delete node.incoming[property];
+                }
                 return [msg, msg.payload ? node.incoming : null] // only forward incoming on "ok"
             },
             convertBack: function(payload) {
