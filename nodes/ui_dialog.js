@@ -27,7 +27,7 @@ module.exports = function(RED) {
             beforeSend: function (msg) {
                 msg.topic = node.topic || node.incoming.topic;
                 // strip all dialog properties from the incoming msg 
-                for(var property of ["title", "text", "initialValue", "locals"]) {
+                for(var property of ["title", "text", "fields", "values"]) {
                     delete node.incoming[property];
                 }
                 return [msg, msg.payload ? node.incoming : null] // only forward incoming on "ok"
@@ -62,8 +62,9 @@ module.exports = function(RED) {
                 templateCustom: node.templateCustom,
                 title: msg.title || node.name,
                 text: msg.text,
-                initialValue: msg.initialValue,
-                locals: msg.locals,
+                initialValue: msg.values,
+                //locals: msg.locals,
+                locals: {"fields": msg.fields},
                 id: node.id,
                 ok: node.ok,
                 cancel: node.cancel,

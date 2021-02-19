@@ -89,8 +89,8 @@ app.config(['$mdThemingProvider', '$compileProvider', '$mdDateLocaleProvider', '
             }
         });
         var UiDialogController = ["$scope", "$mdDialog", function($scope, $mdDialog) {
-            // cloned from "MdDialogController" ("prompt")
-            this.result = this.initialValue;
+            // cloned from "MdDialogController" ("prompt"), without "initialValue"
+            // this.result = this.initialValue; 
 
             this.hide = function() {
                 $mdDialog.hide(this.result);

@@ -9,9 +9,9 @@
         <dd>Text message to display in the dialog.</dd>
         <dt class="optional">html <span class="property-type">string</span></dt>
         <dd>HTML formatted message to display in the dialog. (not yet implemented!)</dd>
-        <dt class="optional">initialValue <span class="property-type">varies</span></dt>
-        <dd>The initial value in a "prompt" dialog,or an object with name:value pairs if the dialog has multiple fields (see "Custom fields" below).</dd>
-        <dt class="optional">locals["fields"] <span class="property-type">object</span></dt>
+        <dt class="optional">values <span class="property-type">varies</span></dt>
+        <dd>The initial value in a "prompt" dialog, or an object with name:value pairs if the dialog has multiple fields (see "Custom fields" below).</dd>
+        <dt class="optional">fields <span class="property-type">object</span></dt>
         <dd>An object describing the fields to show in the dialog (see "Custom fields" below).</dd>
     </dl>
 
@@ -51,70 +51,66 @@
     </dl>
 
     <h3>Custom fields</h3>
-    <p>Custom fields can be provided for a "prompt" dialog by supplying a <code>msg.locals["fields"]</code> parameter describing the fields. The initial value of a field can be set with <code>msg.initialValue</code>. The fields supported by the default template include:</p>
+    <p>Custom fields can be provided for a "prompt" dialog by supplying a <code>msg.fields</code> parameter describing the fields. The initial value of a field can be set with <code>msg.values</code>. The fields supported by the default template include:</p>
     <dl>
       <dt>Text input</dt>
       <dd>
-<pre>msg.locals = {"fields": [{
+<pre>msg.fields = [{
     "type": "text",
     "name": "myText",
     "label": "My text input"
 }]
-msg.initialValue = {
+msg.values = {
   "myText": "My initial value"
 }</pre>
       </dd>
       <dt>Password input</dt>
       <dd>
-<pre>msg.locals = {"fields": [{
+<pre>msg.fields = [{
     "type": "password",
     "name": "myPass",
     "label": "My password input"
-  }]
-}
+}]
 
-msg.initialValue = {
+msg.values = {
   "myPass": "My initial password"
 }</pre>
       </dd>
       <dt>Select box</dt>
       <dd>
-<pre>msg.locals = {"fields": [{
+<pre>msg.fields = [{
     "type": "select",
     "name": "mySelect",
     "label": "A select box",
     "options": [{
-            "name": "Option One",
-            "value": 111 
-        },{ 
-            "name": "Option Two",
-            "value": 222
-        }]
-  }]
-}
+          "name": "Option One",
+          "value": 111 
+      },{ 
+          "name": "Option Two",
+          "value": 222
+    }]
+}]
 
-msg.initialValue = {
+msg.values = {
   "mySelect": 222
 }</pre>
       </dd>
       <dt>Radio buttons</dt>
       <dd>
-<pre>msg.locals = {"fields": [{
+<pre>msg.fields = [{
     "type": "radio",
     "name": "myRadio",
     "label": "A radio button group",
-    "value": "R2",
     "options": [{
-            "label": "Radio One",
-            "value": "R1" 
-        },{ 
-            "label": "Radio Two",
-            "value": "R2"
-        }]
-  }]
-}
+          "label": "Radio One",
+          "value": "R1" 
+      },{ 
+          "label": "Radio Two",
+          "value": "R2"
+    }]
+}]
 
-msg.initialValue = {
+msg.values = {
     "myRadio": "R2"
 }</pre>
       </dd>
@@ -122,14 +118,13 @@ msg.initialValue = {
       <dd>T.b.d.</dd>
       <dt>Date input</dt>
       <dd>
-<pre>msg.locals = {"fields": [{
+<pre>msg.fields = [{
     "type": "date",
     "name": "myDate",
     "label": "A date input"
-  }]
-}
+}]
 
-msg.initialValue = {
+msg.values = {
     "myDate": new Date().toLocaleDateString()
 }</pre>
     </dl>
@@ -138,7 +133,7 @@ msg.initialValue = {
     <h3>Custom templates</h3>
     <p>A custom dialog template can be substituted by specifying a "File" to use, or by entering a "Custom" template directly in the configuration window. Certain Angular elements are required to make a fully functioning template:</p>
     <dl>
-      <dt><code>&lt;md-dialog&lt;</code></dt>
+      <dt><code>&lt;md-dialog&gt;</code></dt>
       <dd>Container element for the entire dialog.</dd>
       <dt><code>&lt;md-dialog-content&gt;</code></dt>
       <dd>Container element for the dialog title, text and field(s).</dd>
@@ -155,4 +150,7 @@ msg.initialValue = {
       <dt><code>&lt;md-button ng-click="dialog.hide()"&gt;{{ dialog.ok }}&lt;/md-button&gt;</code></dt>
       <dd>Action button to confirm the dialog (e.g. "Ok")</dd>
     </dl>
+
+    <h3>References</h3>
+    https://material.angularjs.org/latest/api/service/$mdDialog
 </script>

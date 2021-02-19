@@ -15,7 +15,6 @@ output1 (always)               value(s) if prompt, passcode, else true / false (
 output2 (if "ok")              org msg
 
 ### logic
-node settings are not needed in the output (drop config msg)
 validation functions for "prompt"?
 test passcode hash: 3fd1235acdfa43f6768b5065d425d428112799d83699674d77bf2aa884ec2b24
 
@@ -33,21 +32,31 @@ msg1 = {
 msg2 = original message if ok/passcode passed
 
 ### TODO:
-setting initialValues make fields appear in output even if not present in locals.fields
+output #1&2 share the same msgid!?
 
-Sending a blank payload will remove any active dialog without sending any data.
+setting `initialValue` make fields appear in output even if not present in `locals.fields`
+
+"Sending a blank payload will remove any active dialog without sending any data."
+
+rename `msg.locals["fields"]` to `msg.fields` and `msg.initialValue` to `msg.values`
 
 improve default template logic
 
-htmlContent (in addition to textContent)
+`htmlContent` (in addition to `textContent`)
 
-Make title, textContent and htmlContent settable in config? 
+Revisit checkbox syntax
 
-Required fields (ng-disabled="dialog.required && !dialog.result")
+Make `title`, `textContent` and `htmlContent` settable in config? 
+
+Required fields (`ng-disabled="dialog.required && !dialog.result"`)
+
+Can we get rid of mdDialog controller duplication (for pascode)? 
+
+Chainable dialogs? e.g. to present an "alert" if passcode is incorrect
+
+"remote control" dialog preset?
 
 Tests!?
-
-clean up output #2 messages (strip all dialog properties?)
 
 how does "passcode" deal with multiple fields? 
   it shouldn't
